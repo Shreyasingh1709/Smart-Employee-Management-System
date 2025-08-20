@@ -1,0 +1,58 @@
+#include <iostream>
+using namespace std;
+
+class Employee {
+protected:
+    string name;
+    int id;
+    double salary;
+public:
+    Employee(string n, int i, double s) : name(n), id(i), salary(s) {}
+    virtual double calculateSalary() = 0;
+    virtual void display() {
+        cout << "Name: " << name << ", ID: " << id 
+             << ", Salary: " << calculateSalary() << endl;
+    }
+};
+
+class Manager : public Employee {
+    double bonusPercentage;
+public:
+    Manager(string n, int i, double s, double b) 
+        : Employee(n, i, s), bonusPercentage(b) {}
+    double calculateSalary() {
+        return salary + (salary * bonusPercentage / 100);
+    }
+};
+
+class Developer : public Employee {
+    double overtimeHours, overtimeRate;
+public:
+    Developer(string n, int i, double s, double h, double r) 
+        : Employee(n, i, s), overtimeHours(h), overtimeRate(r) {}
+    double calculateSalary() {
+        return salary + (overtimeHours * overtimeRate);
+    }
+};
+
+class Tester : public Employee {
+    double performanceBonus;
+public:
+    Tester(string n, int i, double s, double bonus) 
+        : Employee(n, i, s), performanceBonus(bonus) {}
+    double calculateSalary() {
+        return salary + performanceBonus;
+    }
+};
+
+int main() {
+    Manager m("Alice", 101, 50000, 20);
+    Developer d("Bob", 102, 40000, 10, 500);
+    Tester t("Charlie", 103, 30000, 5000);
+
+    m.display();
+    d.display();
+    t.display();
+
+    return 0;
+}
